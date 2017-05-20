@@ -3,8 +3,15 @@ sudo: false
 python:
   - "3.5"
   - "3.6"
+addons:
+  sauce_connect:
+    username: matthiask82
+    access_key:
+      secure: "5KeaRRTrjn9cOXVfEmceAg1JQui6i26GhsMZqjsRkJdrf2v+Q9L5rbtm9lZUKcy57QJpaxJSQ3dJdb0fceaHW78JyM5iQ9Gu10DMX4c6BVyXIXdAZEdpCADjotuS+t+sAAosFZln5URhku3Qz6vfd/Yz+7k1Ga+KzHpr3AVj05C/mOkv4+sjIoGnWR8CZ/peFXe8Tgx8ZCO8hpGJn/Bt0ylpmIwyUkyizWk8EeQHGNmmMuunamNYeU5WGvn0qeDk22z7fwXCZVyevxph61d18kdrp67FiPT05QP+6hQCmOFqZihG4tWUQKS1rl4VgnCu0lZ9Dz1l57Vu3/TaT2W7Z0Bja67aEWFnc2Y6hJsLgWmTICVYBhcuIVFSW1cw5rnRWCOklIeikH6CBKsXym5kWtn6+FaesMA7+g83059FUMxuAvsEez+/09cKSOfVO8+Q+bmR+Kydg/AJaIPKTW4RenRCIl+LBocZ1dfx3NvJG5F5cF7JtNnkCEQIEDJOasg5VuZIKUSUeW2UcA5PNwHQ3y+XaRCtQ5ksAS70dR41xPAQboOQdFhr69uuUk9VRLGz6nVkR+uCW18VNWjv1TRjXvqT/YKS7SCj98yUYqVb1HrMpM/kBFZkI4Xs/YWPnidOVJLL8Bw5kYkPmApDmOmLFAinlvqhOSR8VA9o+uWTW38="
 install:
   - pip install flake8 docutils pygments
+  - pip install Django coverage django-js-asset Pillow selenium
 script:
   - flake8
   - python setup.py check --restructuredtext --strict --metadata
+  - python manage.py test ckeditor_demo

@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import hashlib
+import os
 import os.path
 from datetime import datetime
 from time import sleep
@@ -21,7 +22,21 @@ class TestAdminPanelWidget(StaticLiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
-        if SELENIUM_BROWSER == CHROMIUM:
+        if 'SAUCE_USERNAME' in os.environ:
+            username = os.environ["SAUCE_USERNAME"]
+            access_key = os.environ["SAUCE_ACCESS_KEY"]
+            capabilities = {
+                'browserName': 'chrome',
+                'platform': 'macOS 10.12',
+                'version': '58.0',
+                'tunnel-identifier': os.environ['TRAVIS_JOB_NUMBER'],
+            }
+            hub_url = "%s:%s@localhost:4445" % (username, access_key)
+            cls.selenium = webdriver.Remote(
+                desired_capabilities=capabilities,
+                command_executor="http://%s/wd/hub" % hub_url,
+            )
+        elif SELENIUM_BROWSER == CHROMIUM:
             cls.selenium = webdriver.Chrome(executable_path='/usr/lib/chromium-browser/chromedriver')
         elif SELENIUM_BROWSER == FIREFOX:
             cls.selenium = webdriver.Firefox()
